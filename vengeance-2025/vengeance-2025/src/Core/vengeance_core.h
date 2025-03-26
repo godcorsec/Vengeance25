@@ -1,14 +1,16 @@
 #pragma once
+#include "../Common/vengeance_structs.h"
 
-#include <GLFW/glfw3.h>
 
 class CVengeanceEngine
 {
+public:
+
 	void Run();
 
 private:
 
 	void Initialize();
 
-	GLFWwindow* m_MainWindow;
+	VengeanceWindowProperties m_WindowProperties;
 };

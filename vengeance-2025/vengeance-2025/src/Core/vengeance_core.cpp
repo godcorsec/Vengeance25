@@ -26,6 +26,9 @@ void CVengeanceEngine::Initialize()
 		glfwTerminate();
 	}
 
+	printf("{#} OPENGL VERSION: %s\n", glGetString(GL_VERSION));
+	printf("{#} RENDERER: %s\n", glGetString(GL_RENDERER));
+
 }
 
 

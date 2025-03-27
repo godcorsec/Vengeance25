@@ -5,7 +5,7 @@
 
 int main()
 {
-	std::cout << "Hello from Vengeance." << std::endl;
+	printf("{#} Starting engine..\n");
 
 	CVengeanceEngine engine;
 

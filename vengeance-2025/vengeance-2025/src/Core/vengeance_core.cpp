@@ -1,7 +1,9 @@
 #include "vengeance_core.h"
+#include "vengeance_callbacks.h"
 
 #include <glad/glad.h>
 #include <stdexcept>
+
 
 void CVengeanceEngine::Initialize()
 {
@@ -26,6 +28,10 @@ void CVengeanceEngine::Initialize()
 		glfwTerminate();
 	}
 
+	// Initialize Vengeance's custom callbacks.
+	glfwSetFramebufferSizeCallback(m_WindowProperties.m_MainWindow ,VengeanceCallbacks::Framebuffer_Size_Callback);
+	
+
 	printf("{#} OPENGL VERSION: %s\n", glGetString(GL_VERSION));
 	printf("{#} RENDERER: %s\n", glGetString(GL_RENDERER));
 
@@ -35,7 +41,7 @@ void CVengeanceEngine::Initialize()
 void CVengeanceEngine::Run()
 {
 	Initialize();
-	glClearColor(0.17f, 0.17f, 0.17f, 1.0f);
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
 	while (!glfwWindowShouldClose(m_WindowProperties.m_MainWindow))
 	{

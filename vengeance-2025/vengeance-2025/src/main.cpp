@@ -5,12 +5,11 @@
 
 int main()
 {
-	printf("{#} Starting engine..\n");
+    printf("{#} Starting engine..\n");
 
-	CVengeanceEngine engine;
+    VengeanceShaderSources shaderSource = VengeanceParseShader("bru");
 
-	engine.Run();
+    std::cout << shaderSource.FragmentShaderSource << std::endl;
 
-
-	return 0;
+    return 0;
 }

@@ -3,6 +3,20 @@
 
 #include <glad/glad.h>
 #include <stdexcept>
+#include "vengeance_error_handling.hpp"
+#include "../Shaders/vengeance_shader.h"
+
+float positions[] = {
+	-0.5f, -0.5f,
+	0.5f, -0.5f,
+	0.5f,  0.5f,
+	-0.5, 0.5f,
+};
+
+unsigned int indices[] = {
+	0, 1, 2,
+	2, 3, 0
+};
 
 
 void CVengeanceEngine::Initialize()
@@ -41,15 +55,35 @@ void CVengeanceEngine::Initialize()
 void CVengeanceEngine::Run()
 {
 	Initialize();
+
+	unsigned int buffer{};
+
+	VengeanceCatchGLError(glGenBuffers(1, &buffer));
+	VengeanceCatchGLError(glBindBuffer(GL_ARRAY_BUFFER, buffer));
+	VengeanceCatchGLError(glBufferData(GL_ARRAY_BUFFER, 6 * 2 * sizeof(float), positions, GL_STATIC_DRAW));
+	VengeanceCatchGLError(glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), 0));
+
+	unsigned int ibo{};
+	VengeanceCatchGLError(glGenBuffers(1, &ibo));
+	VengeanceCatchGLError(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo));
+	VengeanceCatchGLError(glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6 * sizeof(unsigned int), indices, GL_STATIC_DRAW));
+
+	VengeanceShader shader("Resources/Shaders/Basic.shader");
+	unsigned int comped_shader = shader.CompileShader();
+
+	VengeanceCatchGLError(glUseProgram(comped_shader));
+	VengeanceCatchGLError(glEnableVertexAttribArray(0));
+
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
 	while (!glfwWindowShouldClose(m_WindowProperties.m_MainWindow))
 	{
 		glClear(GL_COLOR_BUFFER_BIT);
 
-
-		glfwPollEvents();
+		VengeanceCatchGLError(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr));
 
 		glfwSwapBuffers(m_WindowProperties.m_MainWindow);
+		glfwPollEvents();
+
 	}
 }
